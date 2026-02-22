@@ -21,7 +21,7 @@ public static class PricingService
 
     public static decimal CalculateCustomPrice(int ingredientCount, PizzaSize size)
     {
-        var total = CustomBasePrice + (ingredientCount * CustomBasePricePerIngredient);
-        return Math.Round(total * SizeMultipliers[size], 2);
+        var total = CustomBasePrice + ingredientCount * CustomBasePricePerIngredient * SizeMultipliers[size];
+        return Math.Round(total, 2);
     }
 }

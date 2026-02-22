@@ -70,12 +70,12 @@ public static class OrderEndpoints
                 Phone = request.Phone,
                 Pizzas = orderedPizzas,
                 Status = OrderStatus.Pending,
-                TotalPrice = total
+                TotalPrice = 0
             };
 
             await orderRepo.SaveOrderAsync(order);
 
-            return Results.Ok(new PlaceOrderResponse(order.Id, order.TotalPrice));
+            return Results.Ok(new PlaceOrderResponse(order.Id, total));
         });
 
         app.MapGet("/api/orders/{id}", async (string id, IMenuRepository menuRepo, IOrderRepository orderRepo) =>

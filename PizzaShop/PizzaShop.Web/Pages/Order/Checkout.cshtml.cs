@@ -72,7 +72,7 @@ public class CheckoutModel : PizzaPageModel
         {
             var result = await _api.PlaceOrderAsync(request);
             CartService.ClearCart();
-            return RedirectToPage("/Order/Confirmation", new { id = result!.OrderId });
+            return RedirectToPage("/Order/Confirmation", new { id = result.OrderId });
         }
         catch (Exception ex)
         {

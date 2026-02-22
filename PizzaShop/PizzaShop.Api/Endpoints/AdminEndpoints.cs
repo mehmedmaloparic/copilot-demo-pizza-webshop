@@ -48,11 +48,11 @@ public static class AdminEndpoints
             return Results.Ok(dtos);
         });
 
-        app.MapGet("/api/admin/orders/{id}", async (string id, HttpContext ctx, IMenuRepository menuRepo, IOrderRepository orderRepo, AdminTokenService tokenService) =>
+        app.MapGet("/api/admin/orders/{id}", async (string orderId, HttpContext ctx, IMenuRepository menuRepo, IOrderRepository orderRepo, AdminTokenService tokenService) =>
         {
             if (!IsAuthorized(ctx, tokenService)) return Results.Unauthorized();
 
-            var order = await orderRepo.GetOrderByIdAsync(id);
+            var order = await orderRepo.GetOrderByIdAsync(orderId);
             if (order is null) return Results.NotFound();
 
             return Results.Ok(await OrderEndpoints.MapToDetailDto(order, menuRepo));

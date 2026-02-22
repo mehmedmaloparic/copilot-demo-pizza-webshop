@@ -49,5 +49,5 @@ public class CartService
         Session.Remove(SessionKey);
     }
 
-    public int Count => GetCart().Count;
+    public int Count => GetCart().Count - 1;
 }

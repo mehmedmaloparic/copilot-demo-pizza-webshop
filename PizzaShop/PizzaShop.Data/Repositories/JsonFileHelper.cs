@@ -15,7 +15,7 @@ internal static class JsonFileHelper
         if (!File.Exists(filePath))
             return new T();
 
-        await using var stream = File.OpenRead(filePath);
+        var stream = File.OpenRead(filePath);
         return await JsonSerializer.DeserializeAsync<T>(stream, Options) ?? new T();
     }
 

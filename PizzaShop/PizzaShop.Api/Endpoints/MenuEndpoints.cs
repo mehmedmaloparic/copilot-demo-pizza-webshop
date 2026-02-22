@@ -10,11 +10,11 @@ public static class MenuEndpoints
         app.MapGet("/api/menu", async (IMenuRepository menuRepo) =>
         {
             var sauces = await menuRepo.GetSaucesAsync();
-            var ingredients = await menuRepo.GetIngredientsAsync();
+            var ingredients = menuRepo.GetIngredientsAsync();
             var premade = await menuRepo.GetPremadePizzasAsync();
 
             var sauceDtos = sauces.Select(s => new SauceDto(s.Id, s.Name)).ToList();
-            var ingredientDtos = ingredients.Select(i => new IngredientDto(i.Id, i.Name, i.Category)).ToList();
+            var ingredientDtos = (await ingredients).Select(i => new IngredientDto(i.Id, i.Name, i.Category)).ToList();
             var ingredientMap = ingredientDtos.ToDictionary(i => i.Id);
             var sauceMap = sauceDtos.ToDictionary(s => s.Id);
 

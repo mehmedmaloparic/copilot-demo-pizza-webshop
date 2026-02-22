@@ -25,6 +25,7 @@ public class OrdersModel : PizzaPageModel
         try
         {
             Orders = await _api.GetAdminOrdersAsync(token) ?? new List<OrderSummaryModel>();
+            Orders = Orders.OrderBy(o => o.PlacedAt).ToList();
         }
         catch
         {

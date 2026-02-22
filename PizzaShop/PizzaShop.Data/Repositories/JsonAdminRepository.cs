@@ -14,6 +14,6 @@ public class JsonAdminRepository : IAdminRepository
     public async Task<AdminUser?> GetAdminUserAsync(string username)
     {
         var users = await JsonFileHelper.ReadAsync<List<AdminUser>>(_filePath);
-        return users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+        return users.FirstOrDefault(u => u.Username == username);
     }
 }

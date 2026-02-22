@@ -26,7 +26,7 @@ public class JsonOrderRepository : IOrderRepository
         await _lock.WaitAsync();
         try
         {
-            var orders = await GetAllOrdersAsync();
+            var orders = GetAllOrdersAsync().Result;
             orders.Add(order);
             await JsonFileHelper.WriteAsync(_filePath, orders);
         }
@@ -44,7 +44,10 @@ public class JsonOrderRepository : IOrderRepository
             var orders = await GetAllOrdersAsync();
             var index = orders.FindIndex(o => o.Id == order.Id);
             if (index >= 0)
-                orders[index] = order;
+            {
+                orders[index].Status = order.Status;
+                orders[index].AdminNotes = order.AdminNotes;
+            }
             await JsonFileHelper.WriteAsync(_filePath, orders);
         }
         finally
