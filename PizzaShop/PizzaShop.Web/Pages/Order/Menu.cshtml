@@ -1,0 +1,122 @@
+@page
+@model PizzaShop.Web.Pages.Order.MenuPageModel
+@{
+    ViewData["Title"] = "Our Menu";
+}
+
+<h1 class="mb-1">Our Menu</h1>
+<p class="text-muted mb-4">Pick a classic or scroll down to build your own.</p>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+else if (Model.Menu == null)
+{
+    <div class="alert alert-warning">Loading menu...</div>
+}
+else
+{
+    <!-- Premade Pizzas -->
+    <h2 class="h4 mb-3">Classic Pizzas</h2>
+    <div class="row g-4 mb-5">
+        @foreach (var pizza in Model.Menu.PremadePizzas)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@pizza.Name</h5>
+                        <p class="card-text text-muted flex-grow-1">@pizza.Description</p>
+                        <p class="small text-secondary mb-1">
+                            <strong>Sauce:</strong> @pizza.SauceName
+                        </p>
+                        <p class="small text-secondary mb-2">
+                            <strong>Toppings:</strong> @string.Join(", ", pizza.Ingredients.Select(i => i.Name))
+                        </p>
+                        <p class="fw-bold text-danger mb-3">From &euro;@pizza.BasePrice.ToString("0.00")</p>
+
+                        <form method="post" asp-page-handler="AddPremade">
+                            <input type="hidden" name="pizzaId" value="@pizza.Id" />
+                            <div class="mb-2">
+                                <select name="size" class="form-select form-select-sm">
+                                    <option value="Small">Small (-20%) &mdash; &euro;@((pizza.BasePrice * 0.80m).ToString("0.00"))</option>
+                                    <option value="Medium" selected>Medium &mdash; &euro;@pizza.BasePrice.ToString("0.00")</option>
+                                    <option value="Large">Large (+30%) &mdash; &euro;@((pizza.BasePrice * 1.30m).ToString("0.00"))</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Build Your Own -->
+    <h2 class="h4 mb-3">Build Your Own Pizza</h2>
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form method="post" asp-page-handler="AddCustom">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Size</label>
+                        <select name="size" id="customSize" class="form-select" onchange="updateCustomPrice()">
+                            <option value="Small">Small</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Large">Large</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Sauce</label>
+                        <select name="sauceId" class="form-select">
+                            @foreach (var sauce in Model.Menu.Sauces)
+                            {
+                                <option value="@sauce.Id">@sauce.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    @foreach (var category in Model.Menu.Ingredients.GroupBy(i => i.Category))
+                    {
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">@category.Key</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var ingredient in category)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input ingredient-check" type="checkbox"
+                                               name="ingredientIds" value="@ingredient.Id"
+                                               id="ing_@ingredient.Id" onchange="updateCustomPrice()" />
+                                        <label class="form-check-label" for="ing_@ingredient.Id">@ingredient.Name</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-12">
+                        <p class="mb-1">Estimated price: <strong id="customPriceDisplay" class="text-danger">&euro;8.99</strong></p>
+                        <small class="text-muted">Base &euro;8.99 + &euro;1.00 per topping, adjusted for size.</small>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger px-4">Add Custom Pizza to Cart</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+    function updateCustomPrice() {
+        const sizeMultipliers = { Small: 0.80, Medium: 1.00, Large: 1.30 };
+        const size = document.getElementById('customSize').value;
+        const mult = sizeMultipliers[size] ?? 1.00;
+        const count = document.querySelectorAll('.ingredient-check:checked').length;
+        const total = (8.99 + count * 1.00) * mult;
+        document.getElementById('customPriceDisplay').textContent = '\u20AC' + total.toFixed(2);
+    }
+</script>
+}

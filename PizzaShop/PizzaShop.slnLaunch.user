@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "PizzaShop.Api\\PizzaShop.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "PizzaShop.Web\\PizzaShop.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

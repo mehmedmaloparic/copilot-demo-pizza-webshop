@@ -1,0 +1,66 @@
+@page
+@model PizzaShop.Web.Pages.Admin.OrdersModel
+@{
+    ViewData["Title"] = "Admin — Orders";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Orders Overview</h1>
+    <form method="post" asp-page-handler="Logout">
+        <button type="submit" class="btn btn-outline-dark btn-sm">Logout</button>
+    </form>
+</div>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+@if (Model.Orders.Count == 0)
+{
+    <div class="alert alert-info">No orders yet. Time to promote the shop!</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Placed</th>
+                    <th>Delivery</th>
+                    <th>Pizzas</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    var badgeClass = order.Status switch
+                    {
+                        PizzaShop.Web.Models.OrderStatus.Pending    => "bg-warning text-dark",
+                        PizzaShop.Web.Models.OrderStatus.InProgress => "bg-primary",
+                        PizzaShop.Web.Models.OrderStatus.Completed  => "bg-success",
+                        _ => "bg-secondary"
+                    };
+                    <tr>
+                        <td class="fw-bold">#@order.Id</td>
+                        <td>@order.CustomerName</td>
+                        <td>@order.PlacedAt.ToString("dd MMM HH:mm")</td>
+                        <td>@order.RequestedDeliveryTime.ToString("dd MMM HH:mm")</td>
+                        <td>@order.PizzaCount</td>
+                        <td class="text-danger fw-bold">&euro;@order.TotalPrice.ToString("0.00")</td>
+                        <td><span class="badge @badgeClass">@order.Status</span></td>
+                        <td>
+                            <a asp-page="/Admin/OrderDetail" asp-route-id="@order.Id"
+                               class="btn btn-sm btn-outline-dark">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

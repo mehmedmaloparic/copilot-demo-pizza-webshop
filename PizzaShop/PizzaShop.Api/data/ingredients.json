@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "Name": "Mozzarella",
+    "Category": "Cheese"
+  },
+  {
+    "Id": 2,
+    "Name": "Cheddar",
+    "Category": "Cheese"
+  },
+  {
+    "Id": 3,
+    "Name": "Gorgonzola",
+    "Category": "Cheese"
+  },
+  {
+    "Id": 4,
+    "Name": "Pepperoni",
+    "Category": "Meat"
+  },
+  {
+    "Id": 5,
+    "Name": "Italian Sausage",
+    "Category": "Meat"
+  },
+  {
+    "Id": 6,
+    "Name": "Bacon",
+    "Category": "Meat"
+  },
+  {
+    "Id": 7,
+    "Name": "Chicken",
+    "Category": "Meat"
+  },
+  {
+    "Id": 8,
+    "Name": "Mushrooms",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 9,
+    "Name": "Bell Peppers",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 10,
+    "Name": "Red Onion",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 11,
+    "Name": "Black Olives",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 12,
+    "Name": "Spinach",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 13,
+    "Name": "Tomatoes",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 14,
+    "Name": "Jalape\u00F1os",
+    "Category": "Veggie"
+  },
+  {
+    "Id": 15,
+    "Name": "Pineapple",
+    "Category": "Fruit"
+  },
+  {
+    "Id": 16,
+    "Name": "Basil",
+    "Category": "Herb"
+  }
+]

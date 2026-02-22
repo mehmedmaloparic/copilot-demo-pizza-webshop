@@ -1,0 +1,102 @@
+@page "{id}"
+@model PizzaShop.Web.Pages.Admin.OrderDetailPageModel
+@{
+    ViewData["Title"] = $"Order #{Model.Order?.Id}";
+}
+
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a asp-page="/Admin/Orders" class="btn btn-outline-secondary btn-sm">&larr; Back to Orders</a>
+    <h1 class="mb-0">Order #@Model.Order?.Id</h1>
+    @if (Model.Order != null)
+    {
+        var badgeClass = Model.Order.Status switch
+        {
+            PizzaShop.Web.Models.OrderStatus.Pending    => "bg-warning text-dark",
+            PizzaShop.Web.Models.OrderStatus.InProgress => "bg-primary",
+            PizzaShop.Web.Models.OrderStatus.Completed  => "bg-success",
+            _ => "bg-secondary"
+        };
+        <span class="badge @badgeClass fs-6">@Model.Order.Status</span>
+    }
+</div>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+@if (Model.SuccessMessage != null)
+{
+    <div class="alert alert-success">@Model.SuccessMessage</div>
+}
+
+@if (Model.Order != null)
+{
+    var order = Model.Order;
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header fw-bold">Customer Details</div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Name</dt><dd class="col-sm-8">@order.CustomerName</dd>
+                        <dt class="col-sm-4">Phone</dt><dd class="col-sm-8">@order.Phone</dd>
+                        <dt class="col-sm-4">Address</dt><dd class="col-sm-8">@order.Street, @order.City @order.PostalCode</dd>
+                        <dt class="col-sm-4">Placed</dt><dd class="col-sm-8">@order.PlacedAt.ToString("dd MMM yyyy HH:mm")</dd>
+                        <dt class="col-sm-4">Deliver by</dt><dd class="col-sm-8">@order.RequestedDeliveryTime.ToString("dd MMM yyyy HH:mm")</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold">Pizzas Ordered</div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var pizza in order.Pizzas)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>@pizza.PizzaDisplayName</strong> &mdash; @pizza.Size
+                                @if (pizza.IsCustom)
+                                {
+                                    <span class="badge bg-info text-dark ms-1">Custom</span>
+                                }
+                                <br />
+                                <small class="text-muted">Sauce: @pizza.SauceName</small><br />
+                                <small class="text-muted">Toppings: @(pizza.IngredientNames.Count > 0 ? string.Join(", ", pizza.IngredientNames) : "none")</small>
+                            </div>
+                            <span class="text-danger fw-bold">&euro;@pizza.Price.ToString("0.00")</span>
+                        </li>
+                    }
+                </ul>
+                <div class="card-footer d-flex justify-content-between fw-bold fs-5">
+                    <span>Total</span>
+                    <span class="text-danger">&euro;@order.TotalPrice.ToString("0.00")</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header fw-bold bg-dark text-white">Update Order</div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Update" asp-route-id="@order.Id">
+                        <div class="mb-3">
+                            <label asp-for="NewStatus" class="form-label fw-semibold">Status</label>
+                            <select asp-for="NewStatus" class="form-select">
+                                @foreach (var status in Enum.GetValues<PizzaShop.Web.Models.OrderStatus>())
+                                {
+                                    <option value="@status">@status</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="AdminNotes" class="form-label fw-semibold">Admin Notes</label>
+                            <textarea asp-for="AdminNotes" class="form-control" rows="4"
+                                      placeholder="Internal notes visible only to admins..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

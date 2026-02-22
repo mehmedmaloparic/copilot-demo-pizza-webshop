@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "Name": "Margherita",
+    "Description": "The classic. Simple, perfect, timeless.",
+    "SauceId": 1,
+    "IngredientIds": [
+      1,
+      16,
+      13
+    ],
+    "BasePrice": 9.99
+  },
+  {
+    "Id": 2,
+    "Name": "Pepperoni Bliss",
+    "Description": "Loaded with pepperoni because more is more.",
+    "SauceId": 1,
+    "IngredientIds": [
+      1,
+      4
+    ],
+    "BasePrice": 11.99
+  },
+  {
+    "Id": 3,
+    "Name": "BBQ Chicken",
+    "Description": "Smoky BBQ sauce with tender chicken. A crowd favourite.",
+    "SauceId": 2,
+    "IngredientIds": [
+      2,
+      7,
+      10
+    ],
+    "BasePrice": 12.99
+  },
+  {
+    "Id": 4,
+    "Name": "The Meat Lover",
+    "Description": "For those who believe vegetables are just decoration.",
+    "SauceId": 1,
+    "IngredientIds": [
+      1,
+      4,
+      5,
+      6,
+      7
+    ],
+    "BasePrice": 14.99
+  },
+  {
+    "Id": 5,
+    "Name": "Garden Party",
+    "Description": "A veggie feast that even carnivores secretly enjoy.",
+    "SauceId": 4,
+    "IngredientIds": [
+      1,
+      8,
+      9,
+      10,
+      12,
+      13
+    ],
+    "BasePrice": 11.49
+  },
+  {
+    "Id": 6,
+    "Name": "Hawaiian Controversy",
+    "Description": "Yes, it has pineapple. No, we won\u0027t apologise.",
+    "SauceId": 1,
+    "IngredientIds": [
+      1,
+      6,
+      15
+    ],
+    "BasePrice": 11.99
+  },
+  {
+    "Id": 7,
+    "Name": "White Fire",
+    "Description": "Garlic sauce, gorgonzola, jalape\u00F1os. Not for the faint-hearted.",
+    "SauceId": 3,
+    "IngredientIds": [
+      3,
+      14,
+      16
+    ],
+    "BasePrice": 12.49
+  }
+]

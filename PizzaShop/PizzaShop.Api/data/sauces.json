@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Name": "Classic Tomato"
+  },
+  {
+    "Id": 2,
+    "Name": "BBQ"
+  },
+  {
+    "Id": 3,
+    "Name": "White Garlic"
+  },
+  {
+    "Id": 4,
+    "Name": "Pesto"
+  },
+  {
+    "Id": 5,
+    "Name": "Spicy Arrabbiata"
+  }
+]
